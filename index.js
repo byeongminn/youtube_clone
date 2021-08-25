@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const config = require("./server/config/key");
 
 const { User } = require("./server/models/User");
+const { auth } = require("./server/middleware/auth");
 
 const app = express();
 mongoose.connect(config.mongoURI, {
@@ -45,6 +46,18 @@ app.post("/api/users/login", (req, res) => {
                 .json({ loginSuccess: true, userId: user._id });
             })
         })
+    })
+})
+
+app.get("/api/users/auth", auth, (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        role: req.user.role,
+        image: req.user.image
     })
 })
 
