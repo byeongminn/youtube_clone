@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const config = require("./server/config/key");
+const cookieParser = require("cookie-parser");
 
 const { User } = require("./server/models/User");
 const { auth } = require("./server/middleware/auth");
@@ -13,6 +14,7 @@ mongoose.connect(config.mongoURI, {
     .catch(err => console.log(err));
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
@@ -58,6 +60,13 @@ app.get("/api/users/auth", auth, (req, res) => {
         name: req.user.name,
         role: req.user.role,
         image: req.user.image
+    })
+})
+
+app.get("/api/users/logout", auth, (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).send({ success: true });
     })
 })
 
