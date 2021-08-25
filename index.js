@@ -20,6 +20,10 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
+app.get("/hello", (req, res) => {
+    res.send("Hello");
+})
+
 app.post("/api/users/register", (req, res) => {
     const user = User(req.body);
 
