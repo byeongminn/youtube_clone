@@ -28,6 +28,26 @@ app.post("/api/users/register", (req, res) => {
     })
 })
 
+app.post("/api/users/login", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (!user) {
+            return res.json({ loginSuccess: false, message: "등록되지 않은 이메일입니다." });
+        }
+
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch) return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." });
+
+            user.generateToken((err, user) => {
+                if (err) return res.status(400).send(err);
+
+                res.cookie("x_auth", user.token)
+                .status(200)
+                .json({ loginSuccess: true, userId: user._id });
+            })
+        })
+    })
+})
+
 app.listen(5000, function () {
   console.log('Example app listening on http://localhost:5000');
 });
