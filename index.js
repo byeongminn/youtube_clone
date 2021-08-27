@@ -159,6 +159,15 @@ app.get("/api/video/getVideos", (req, res) => {
         })
 })
 
+app.post("/api/video/getVideoDetail", (req, res) => {
+    Video.findOne({ "_id": req.body.videoId })
+        .populate('writer')
+        .exec((err, videoDetail) => {
+            if (err) return res.status(400).send(err);
+            return res.status(200).json({ success: true, videoDetail });
+        })
+})
+
 app.listen(5000, function () {
   console.log('Example app listening on http://localhost:5000');
 });
