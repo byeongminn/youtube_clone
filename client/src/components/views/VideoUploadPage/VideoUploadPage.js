@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'antd/dist/antd.css'
 import { Typography, Button, Form, message, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Dropzone from "react-dropzone";
