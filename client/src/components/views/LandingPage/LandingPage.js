@@ -7,7 +7,7 @@ const { Title } = Typography;
 const { Meta } = Card;
 
 function LandingPage(props) {
-    const [video, setVideo] = useState([]);
+    const [videos, setVideos] = useState([]);
 
 
     useEffect(() => {
@@ -15,7 +15,7 @@ function LandingPage(props) {
             .then(response => {
                 if (response.data.success) {
                     console.log(response.data);
-                    setVideo(response.data.videos);
+                    setVideos(response.data.videos);
                 } else {
                     alert('비디오 가져오기를 실패했습니다.');
                 }
@@ -33,14 +33,14 @@ function LandingPage(props) {
             })
     }
 
-    const renderCards = video.map((video, index) => {
+    const renderCards = videos.map((video, index) => {
         const minutes = Math.floor(video.duration / 60);
         const seconds = Math.floor(video.duration - minutes * 60);
 
-        return <Col lg={6} md={8} xs={24}>
+        return <Col key={index} lg={6} md={8} xs={24}>
             <a href={`/video/${video._id}`}>
                 <div style={{ position: 'relative' }}>
-                    <img style={{ width: '100%' }} src={`http://localhost:5000/${video.thumbnail}`} />
+                    <img style={{ width: '100%' }} src={`http://localhost:5000/${video.thumbnail}`} alt="thumbnail" />
                     <div className="duration">
                         <span>{minutes} : {seconds}</span>
                     </div>
@@ -63,15 +63,13 @@ function LandingPage(props) {
     return (
         <div style={{ width: "85%", margin: '3rem auto' }}>
             <Title level={2}>Recommended</Title>
+            <button onClick={onClick}>로그아웃</button>
             <hr />
             <Row gutter={[32, 16]}>
 
                 {renderCards}
                 
             </Row>
-
-            <br />
-            <button onClick={onClick}>로그아웃</button>
         </div>
     )
 }

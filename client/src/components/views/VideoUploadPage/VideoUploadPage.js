@@ -46,7 +46,7 @@ function VideoUploadPage(props) {
     }
 
     const onDrop = (files) => {
-        let formData = new FormData;
+        let formData = new FormData();
         const config = {
             header: { "content-type": "multipart/form-data" }
         }
@@ -121,7 +121,7 @@ function VideoUploadPage(props) {
                         maxSize={1000000000}>
                         {({ getRootProps, getInputProps }) => (
                           <div style={{ width: "300px", height: "240px", border: "1px solid lightgray", display: "flex",
-                              alignItems: "center", justifyContent: "center"}}
+                              alignItems: "center", justifyContent: "center", cursor: "pointer"}}
                               {...getRootProps()}>
                                   <input {...getInputProps()} />
                                   <PlusOutlined style={{ fontSize: "3rem" }} />

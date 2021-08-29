@@ -20,6 +20,7 @@ mongoose.connect(config.mongoURI, {
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
+app.use('/api/subscribe', require('./server/routes/subscribe'));
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
