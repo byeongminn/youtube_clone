@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Comment, Avatar, Input } from "antd";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import LikeDislikes from './LikeDislikes';
 
 const { TextArea } = Input;
 
@@ -45,7 +46,8 @@ function SingleComment(props) {
     }
 
     const actions = [
-        <span onClick={onClick} key="comment-basic-reply-to">Reply to</span>
+        <LikeDislikes userId={user._id} commentId={props.comment._id} />
+        , <span onClick={onClick} key="comment-basic-reply-to">Reply to</span>
     ]
 
     return (
