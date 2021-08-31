@@ -16,6 +16,7 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use('/api/users', require('./server/routes/user'));
 app.use('/api/video', require('./server/routes/video'));
 app.use('/api/subscribe', require('./server/routes/subscribe'));
+app.use('/api/comment', require('./server/routes/comment'));
 
 app.get('/', function (req, res) {
   res.send('Hello World!');

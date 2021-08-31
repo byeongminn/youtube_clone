@@ -3,6 +3,7 @@ import { Row, Col, List, Avatar } from "antd";
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import Comment from './Sections/Comment';
 
 function VideoDetailPage(props) {
     const videoId = props.match.params.videoId;
@@ -10,6 +11,7 @@ function VideoDetailPage(props) {
         videoId
     }
     const [videoDetail, setVideoDetail] = useState({});
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         axios.post('/api/video/getVideoDetail', variable)
@@ -21,7 +23,21 @@ function VideoDetailPage(props) {
                     alert("비디오 정보를 가져오기를 실패했습니다.");
                 }
             })
+        
+        axios.post('/api/comment/getComments', variable)
+            .then(response => {
+                if (response.data.success) {
+                    setComments(response.data.comments);
+                    console.log(comments);
+                } else {
+                    alert('댓글 정보를 가져오는 것을 실패했습니다.');
+                }
+            })
     }, [])
+
+    const refreshFunction = (newComment) => {
+        setComments(comments.concat(newComment));
+    }
 
     if (videoDetail.writer) {
 
@@ -42,6 +58,7 @@ function VideoDetailPage(props) {
                                 description={videoDetail.description}
                             />
                         </List.Item>
+                        <Comment refreshFunction={refreshFunction} commentLists={comments} postId={videoId} />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
